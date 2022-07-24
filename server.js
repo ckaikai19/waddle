@@ -81,4 +81,13 @@ function viewAllDepartment(){
     });
 }
 
+function viewAllRoles(){
+    console.log("Viewing Roles\n");
+    db_connection.query('SELECT * FROM Role', function (err, res) {
+    if (err) throw err;
 
+    console.table(res);
+    console.log("Roles viewed!\n");
+    firstPrompt()
+    });
+}
