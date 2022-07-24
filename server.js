@@ -16,8 +16,8 @@ function firstPrompt() {
             message: "Would you like to do?",
             choices: [
                 "View Employees",
-                "View Employees by Department",
-                "Add Employee",
+                "View All Departments",
+                "View All Roles",
                 "Remove Employees",
                 "Update Employee Role",
                 "Add Role",
@@ -29,12 +29,12 @@ function firstPrompt() {
                     viewEmployee();
                     break;
 
-                case "View Employees by Department":
-                    viewEmployeeByDepartment();
+                case "View All Departments":
+                    viewAllDepartment();
                     break;
 
-                case "Add Employee":
-                    addEmployee();
+                case "View All Roles":
+                    viewAllRoles();
                     break;
 
                 case "Remove Employees":
@@ -64,7 +64,21 @@ function viewEmployee() {
 
     console.table(res);
     console.log("Employees viewed!\n");
-
+    firstPrompt()
     });
+
   
 }
+
+function viewAllDepartment(){
+    console.log("Viewing Departments\n");
+    db_connection.query('SELECT * FROM department', function (err, res) {
+    if (err) throw err;
+
+    console.table(res);
+    console.log("Departments viewed!\n");
+    firstPrompt()
+    });
+}
+
+
