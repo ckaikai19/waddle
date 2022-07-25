@@ -18,8 +18,8 @@ function firstPrompt() {
                 "View Employees",
                 "View All Departments",
                 "View All Roles",
-                "Remove Employees",
-                "Update Employee Role",
+                "Add A Department",
+                "Add A Role",
                 "Add Role",
                 "End"]
         })
@@ -37,12 +37,12 @@ function firstPrompt() {
                     viewAllRoles();
                     break;
 
-                case "Remove Employees":
-                    removeEmployees();
+                case "Add A Department":
+                    addDepartment();
                     break;
 
-                case "Update Employee Role":
-                    updateEmployeeRole();
+                case "Add A Role":
+                    addRole();
                     break;
 
                 case "Add Role":
@@ -90,4 +90,49 @@ function viewAllRoles(){
     console.log("Roles viewed!\n");
     firstPrompt()
     });
+}
+
+function addDepartment(){
+    inquirer
+        .prompt([
+            {
+                type:"input",
+                name: "depatmentName",
+                message: "Enter the department name"
+            }
+        ])
+        .then((answer) => {
+
+            db_connection.query(`INSERT INTO department (name) VALUES ("${answer.depatmentName}")`, function (err, res) {
+                if (err) throw(err)
+                firstPrompt();
+            });
+            
+        })
+}
+
+function addRole(){
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "roleTitle",
+                message: "Role title?"
+            },
+            {
+                type: "input",
+                name: "roleSalary",
+                message: "Role Salary"
+            },
+            {
+                type: "input",
+                name: "departmentId",
+                message: "DepartmentId?"
+            }
+        ]).then((answer) => {
+            db_connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answer.roleTitle}", ${parseInt(answer.roleSalary)}, ${parseInt(answer.departmentId)})`, function (err, res) {
+                if (err) throw(err)
+                firstPrompt();
+            });
+        }) 
 }
