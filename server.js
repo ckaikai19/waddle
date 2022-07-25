@@ -110,7 +110,6 @@ function addDepartment(){
 
             db_connection.query(`INSERT INTO department (name) VALUES ("${answer.depatmentName}")`, function (err, res) {
                 if (err) throw(err)
-                console.table(res)
                 firstPrompt();
             });
             
@@ -138,7 +137,6 @@ function addRole(){
         ]).then((answer) => {
             db_connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answer.roleTitle}", ${parseInt(answer.roleSalary)}, ${parseInt(answer.departmentId)})`, function (err, res) {
                 if (err) throw(err);
-                console.table(res)
                 firstPrompt();
             });
         }) 
@@ -170,7 +168,6 @@ function addEmployee(){
         ]).then((answer) => {
             db_connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${answer.firstname}", "${answer.lastname}", ${parseInt(answer.roleid)}, ${parseInt(answer.managerid)})`, function (err, res) {
                 if (err) throw(err);
-                console.table(res)
                 firstPrompt();
             });
         }) 
@@ -210,7 +207,6 @@ function updateEmployee(){
     .then((answer) => {
         db_connection.query(`UPDATE employee SET first_name = "${answer.fistname}", last_name = "${answer.lastname}", role_id = ${parseInt(answer.roleid)}, manager_id = ${parseInt(answer.managerid)} WHERE id = ${parseInt(answer.empoyeid)}`, function (err, res) {
             if (err) throw(err);
-            console.table(res)
             firstPrompt();
         });
     })
