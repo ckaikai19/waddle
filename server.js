@@ -20,7 +20,8 @@ function firstPrompt() {
                 "View All Roles",
                 "Add A Department",
                 "Add A Role",
-                "Add Role",
+                "Add An Employee",
+                "Update Employee",
                 "End"]
         })
         .then(function ({ task }) {
@@ -45,8 +46,12 @@ function firstPrompt() {
                     addRole();
                     break;
 
-                case "Add Role":
-                    addRole();
+                case "Add An Employee":
+                    addEmployee();
+                    break;
+
+                case "Update Employee":
+                    updateEmployee();
                     break;
 
                 case "End":
@@ -105,6 +110,7 @@ function addDepartment(){
 
             db_connection.query(`INSERT INTO department (name) VALUES ("${answer.depatmentName}")`, function (err, res) {
                 if (err) throw(err)
+                console.table(res)
                 firstPrompt();
             });
             
@@ -131,8 +137,81 @@ function addRole(){
             }
         ]).then((answer) => {
             db_connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answer.roleTitle}", ${parseInt(answer.roleSalary)}, ${parseInt(answer.departmentId)})`, function (err, res) {
-                if (err) throw(err)
+                if (err) throw(err);
+                console.table(res)
                 firstPrompt();
             });
         }) 
+}
+
+function addEmployee(){
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "firstname",
+                message: "Enter first name:"
+            },
+            {
+                type: "input",
+                name: "lastname",
+                message: "Enter last name:"
+            },
+            {
+                type: "input",
+                name: "roleid",
+                message: "enter role id:"
+            },
+            {
+                type: "input",
+                name: "managerid",
+                message: "enter manager id:"
+            }
+        ]).then((answer) => {
+            db_connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${answer.firstname}", "${answer.lastname}", ${parseInt(answer.roleid)}, ${parseInt(answer.managerid)})`, function (err, res) {
+                if (err) throw(err);
+                console.table(res)
+                firstPrompt();
+            });
+        }) 
+}
+
+function updateEmployee(){
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "empoyeid",
+            message: "Enter the employee's id:"
+        },
+        {
+            type: "input",
+            name: "fistname",
+            message: "Enter a NEW first name"
+        },
+        {
+            type: "input",
+            name: "lastname",
+            message: "Enter a NEW last name"
+        },
+        {
+            type: "input",
+            name: "roleid",
+            message: "enter a NEW role id:"
+        },
+        {
+            type: "input",
+            name: "managerid",
+            message: "enter manager id:"
+        }
+        
+
+    ])
+    .then((answer) => {
+        db_connection.query(`UPDATE employee SET first_name = "${answer.fistname}", last_name = "${answer.lastname}", role_id = ${parseInt(answer.roleid)}, manager_id = ${parseInt(answer.managerid)} WHERE id = ${parseInt(answer.empoyeid)}`, function (err, res) {
+            if (err) throw(err);
+            console.table(res)
+            firstPrompt();
+        });
+    })
 }
